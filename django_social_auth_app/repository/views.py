@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django_social_auth_app.repository.models import Repository, Tag
+from django_social_auth_app.repository.models import Repository
 from django_social_auth_app.repository.forms.forms import RepositoryForm
 import requests
-import json
 from django_social_auth_app.repository.models import Tag
 from django_social_auth_app.repository.tables import TagTable
 from django_tables2 import RequestConfig
+from social_django.models import UserSocialAuth
 
 
 def instantiate_repository(repository, user):
@@ -18,22 +18,25 @@ def instantiate_repository(repository, user):
         defaults={'description': description}
     )
 
+
 def create_repositories(repositories_list, user):
     for repository in repositories_list:
         instantiate_repository(repository, user)
 
+
 @login_required
 def edit_repository_tags(request, repository_id):
-    repository = Repository.objects.get(id=repository_id) 
+    repository = Repository.objects.get(id=repository_id)
 
     form = RepositoryForm(pre_setted_tags=repository.tags.all())
 
     tags_table = TagTable(Tag.objects.all())
     RequestConfig(request).configure(tags_table)
 
-    return render(request, 'repository/edit/edit_tags.html', {'repository': repository,
-                                                              'form': form,
-                                                              'tags_table': tags_table})
+    return render(request, 'repository/edit/edit_tags.html',
+                  {'repository': repository, 'form': form,
+                   'tags_table': tags_table})
+
 
 @login_required
 def update_repository(request, repository_id):
@@ -46,12 +49,13 @@ def update_repository(request, repository_id):
     response = redirect('/')
     return response
 
+
 @login_required
-def remove_repository(request, repository_id):
-    repository = Repository.objects.get(id=repository_id).delete()
+def remove_repository(request):
 
     response = redirect('/')
     return response
+
 
 @login_required
 def get_repositories(request):
@@ -62,17 +66,17 @@ def get_repositories(request):
     except UserSocialAuth.DoesNotExist:
         github_login = None
 
-
-    access_token = github_login.extra_data['access_token']
     github_user = github_login.extra_data['login']
 
-    response = requests.get('https://api.github.com/users/{}/repos'.format(github_user))
+    response = requests.get('https://api.github.com/users/{}/repos'
+                            .format(github_user))
     repositories_list = response.json()
 
     create_repositories(repositories_list, user)
 
     response = redirect('/')
     return response
+
 
 @login_required
 def new_tag(request, repository_id):
