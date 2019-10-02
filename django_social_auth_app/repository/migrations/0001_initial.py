@@ -16,18 +16,25 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Tag',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(help_text='Ex: Devops, python', max_length=35, unique=True, verbose_name='Tag Tittle')),
+                ('id', models.AutoField(auto_created=True, primary_key=True,
+                                        serialize=False, verbose_name='ID')),
+                ('title', models.CharField(help_text='Ex: Devops, python',
+                                           max_length=35, unique=True,
+                                           verbose_name='Tag Tittle')),
             ],
         ),
         migrations.CreateModel(
             name='Repository',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True,
+                                        serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=200, unique=True)),
                 ('description', models.TextField()),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='user.User')),
-                ('tags', models.ManyToManyField(blank=True, to='repository.Tag')),
+                ('owner',
+                 models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                   to='user.User')),
+                ('tags', models.ManyToManyField(blank=True,
+                                                to='repository.Tag')),
             ],
         ),
     ]

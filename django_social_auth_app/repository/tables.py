@@ -10,14 +10,19 @@ class RepositoryTable(tables.Table):
 
         def render_tags(self, record):
             if record.tags.all():
-                return mark_safe('<a href='+reverse("home", args=[record.pk])+'>'+
-                            tags_list+'</a>')
+                return mark_safe('<a href=' +
+                                 reverse("home", args=[record.pk])+'>' +
+                                 tags_list+'</a>')
             return '-'
 
-        fields = ('id', 'name', 'description', 'tags', 'edit_tags', 'remove_repository')
+        fields = ('id', 'name', 'description', 'tags', 'edit_tags',
+                  'remove_repository')
 
-    edit_tags = TemplateColumn(template_name='repository/tables/update_repository_tags.html')
-    remove_repository = TemplateColumn(template_name='repository/tables/remove_repository.html')
+    edit_tags = TemplateColumn(template_name='repository/tables/'
+                                             'update_repository_tags.html')
+    remove_repository = TemplateColumn(template_name='repository/tables/'
+                                                     'remove_repository.html')
+
 
 class TagTable(tables.Table):
     class Meta:

@@ -13,6 +13,7 @@ class Tag(models.Model):
     def __str__(self):
         return self.title
 
+
 class Repository(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, unique=True)
