@@ -16,8 +16,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_HOST=webdb
-      - SOCIAL_AUTH_GITHUB_KEY=1a7cc9bcfa77b7ce66af
-      - SOCIAL_AUTH_GITHUB_SECRET=824805134c41e9879237947e80d281608e7511f6
+      - SOCIAL_AUTH_GITHUB_KEY=<SET YOUR KEY VALUE HERE>
+      - SOCIAL_AUTH_GITHUB_SECRET=<SET YOUR GITHUB SECRET HERE>
     volumes:
       - ./django_social_auth_app:/web/django_social_auth_app
     ports:
