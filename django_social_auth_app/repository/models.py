@@ -4,14 +4,15 @@ from django_social_auth_app.user.models import User
 
 class Tag(models.Model):
     title = models.CharField(
-        'Tag Tittle',
+        "Tag Tittle",
         max_length=35,
-        help_text='Ex: Devops, python',
-        unique=True
+        help_text="Ex: Devops, python",
+        unique=True,
     )
 
     def __str__(self):
         return self.title
+
 
 class Repository(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -20,10 +21,9 @@ class Repository(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):
-        return '%d, %s, (%s), (%s)' % (
-                self.id,
-                self.name,
-                self.description,
-                'teste'
-                ', '.join(tag.title for tag in self.tags.all())
-            )
+        return "%d, %s, (%s), (%s)" % (
+            self.id,
+            self.name,
+            self.description,
+            "tags: " + ", ".join(tag.title for tag in self.tags.all()),
+        )
