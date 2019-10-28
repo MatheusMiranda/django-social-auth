@@ -18,4 +18,6 @@ ENV PORT=8000                             \
     ALLOWED_HOSTS=localhost               \
     PREFIX_URL=
 
-CMD python manage.py runserver 0.0.0.0:$PORT
+CMD ["gunicorn", "--chdir", "django_social_auth_app","--bind", ":8000", "wsgi:application"]
+
+
